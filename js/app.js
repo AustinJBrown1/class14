@@ -4,14 +4,22 @@
 var Cart = function(items) {
   // this.items is an array of CartItem instances.
   this.items = items;
+
 };
 
+Cart.cartItemsArray= [];
+
 Cart.prototype.addItem = function(product, quantity) {
+
   // TODO: Fill in this instance method to create a new CartItem and add it to this.items
+  var item = new CartItem(product, quantity);
+  Cart.cartItemsArray.push(item);
+
 };
 
 Cart.prototype.saveToLocalStorage = function() {
   // TODO: Fill in this instance method to save the contents of the cart to localStorage
+  localStorage.setItem('cartItems', JSON.stringify(Cart.cartItemsArray));
 };
 
 Cart.prototype.removeItem = function(item) {
@@ -19,6 +27,7 @@ Cart.prototype.removeItem = function(item) {
   // Note: You will have to decide what kind of parameter to pass in here!
 };
 
+//creates and object that we can add to the cart
 var CartItem = function(product, quantity) {
   this.product = product;
   this.quantity = quantity;
@@ -56,4 +65,17 @@ function generateCatalog() {
 }
 
 // Initialize the app by creating the big list of products with images and names
-generateCatalog();
+//generateCatalog();
+
+//storedProductList = local storage
+if (localStorage.getItem('storedProductList')) {
+  Product.allProducts = JSON.parse(localStorage.getItem('storedProductList'));
+  console.log(Product.allProducts);
+
+
+
+  //run that data through constructor function
+} else {
+  generateCatalog();
+  localStorage.setItem('storedProductList', JSON.stringify(Product.allProducts));
+}
