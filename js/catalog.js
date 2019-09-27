@@ -3,6 +3,7 @@
 'use strict';
 
 // Set up an empty cart for use on this page.
+
 var cart = new Cart([]);
 
 // On screen load, we call this method to put all of the busmall options
@@ -17,7 +18,7 @@ function populateForm() {
     var itemsTag = document.getElementById('items');
     //create an option for the select
     var option = document.createElement('option');
-    option.setAttribute("value", Product.allProducts[i].name);
+    option.setAttribute('value', Product.allProducts[i].name);
     option.textContent = Product.allProducts[i].name;
     console.log('appending child');
     itemsTag.appendChild(option);
@@ -67,28 +68,24 @@ function updateCounter() {
 
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
-  // TODO: Get the item and quantity from the form
-  var cartTable = document.getElementById('cart');
-
-  //for each item in cart, create the row/data:
-  for (var i = 0; i < Cart.cartItemsArray; i++) {
-    //add a tr
-    var itemRow = document.createElement('tr');
-    cartTable.appendChild(itemRow);
-
-    //append a td for a button, quantity, and name
-    var removeButton = doucment.createElement('td');
-    removeButton.textContent = "remove";
-    var quantityTd = doucment.createElement('td');
-    quantityTd.textContent = cartItemsArray[i].quantity;
-    var itemTd = doucment.createElement('td');
-    itemTd.textContent = cartItemsArray[i].product;
+  var previewDiv = document.getElementById('cartContents');
+  var divChild = previewDiv.firstElementChild;
+  while(divChild){
+    divChild.remove();
+    divChild = previewDiv.firstElementChild;
   }
-
-
-
-  // TODO: Add a new element to the cartContents div with that information
+  var parsedCartInfo = JSON.parse(localStorage.getItem('cartItems'));
+  for(var i = 0; i < parsedCartInfo.length; i++){
+    var previewString = document.createElement('p');
+    previewString.textContent = `${parsedCartInfo[i].product}: ${parsedCartInfo[i].quantity}`;
+    previewDiv.appendChild(previewString);
+  }
 }
+
+
+
+// TODO: Add a new element to the cartContents div with that information
+
 
 // Set up the "submit" event listener on the form.
 // This is the trigger for the app. When a user "submits" the form, it will
